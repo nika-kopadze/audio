@@ -1,0 +1,13 @@
+.main {
+  display: flex;
+}
+
+button {
+  font-size: 30px;
+  margin: 11px;
+}
+
+video {
+  width: 492px;
+  margin: 11px;
+}
