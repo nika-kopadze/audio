@@ -99,5 +99,9 @@ document.getElementById("addBuffer").addEventListener("click", () => {
 document
   .getElementById("changeSrcAndAddBuffer")
   .addEventListener("click", () => {
-    audio.src = URL.createObjectURL(mediaSource);
+    audio.pause();
+    audio.currentTime = 0;
+    sourceBuffer.timestampOffset = 0;
+    sourceBuffer.remove(0, Infinity);
+    console.log(sourceBuffer);
   });
