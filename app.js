@@ -1,4 +1,3 @@
-var pc = new RTCPeerConnection();
 var audio = document.getElementById("audio");
 var video = document.getElementById("video");
 var resultVideo = document.getElementById("resultVideo");
@@ -19,7 +18,6 @@ fetch("5sec.mp3")
   })
   .then((arrayBuffer) => {
     buffer = arrayBuffer;
-    sourceBuffer.appendBuffer(buffer);
   });
 ////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +36,7 @@ function createAudioContext() {
     .then(function (stream1) {
       const stream2 = audio.captureStream(); // Capture audio from audio element
       audioIn_01 = audioContext.createMediaStreamSource(stream1);
-      audioIn_02 = audioContext.createMediaStreamSource(stream2);
+      audioIn_02 = audioContext.createMediaElementSource(audio);
 
       dest = audioContext.createMediaStreamDestination();
 
@@ -49,6 +47,11 @@ function createAudioContext() {
         ...stream1.getVideoTracks(),
         ...dest.stream.getAudioTracks(),
       ]);
+
+      var audioSpeaker = new Audio();
+      audioSpeaker.srcObject = stream2;
+      // audioSpeaker.play();
+
       var mediaRecorder = new MediaRecorder(anotherTrack);
 
       video.srcObject = stream1;
@@ -62,6 +65,7 @@ function createAudioContext() {
 
       mediaRecorder.onstop = () => {
         console.log("in stop");
+        console.log(chunks);
         const blob = new Blob(chunks, {
           type: "video/webm",
         });
